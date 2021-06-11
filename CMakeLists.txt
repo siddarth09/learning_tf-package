@@ -150,7 +150,7 @@ include_directories(
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
 # )
-catkin_install_python(PROGRAMS src/orientation.py
+catkin_install_python(PROGRAMS src/orientation.py src/turtlebot3_robot_orientation.py
                 DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 #############
 ## Install ##
