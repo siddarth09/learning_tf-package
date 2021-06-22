@@ -3,7 +3,7 @@ import rospy
 from move_base_msgs.msg import MoveBaseAction,MoveBaseGoal
 import math
 from actionlib_msgs.msg import *
-from geometry_msgs.msg import Point
+from geometry_msgs.msg import Point,Twist
 
 def to_goal():
     print("ENTER THE GOAL TO BE REACHED")
@@ -11,6 +11,11 @@ def to_goal():
     y=float(input())
    
     ac=actionlib.SimpleActionClient('move_base',MoveBaseAction)
+    velocity_publisher=rospy.Publisher('/cmd_vel',Twist,queue_size=10)
+
+    velocity_msg=Twist()
+    velocity_msg.linear.x=1.5
+    rate=rospy.Rate(10)
 
     goal=MoveBaseGoal()
     while (not ac.wait_for_server(rospy.Duration(5))):
@@ -30,6 +35,8 @@ def to_goal():
     rospy.loginfo("SENDING GOAL INFORMATION")
     ac.send_goal(goal)
     ac.wait_for_result(rospy.Duration(60))
+    velocity_publisher.publish(velocity_msg)
+    rate.sleep()
 
     if (ac.get_state() == GoalStatus.SUCCEEDED):
         rospy.loginfo("REACHED THE DESTINATION")
