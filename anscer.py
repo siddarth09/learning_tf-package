@@ -9,6 +9,16 @@ ranges=0
 def callback(msg):
     global ranges
     ranges=msg.ranges[0]
+    
+def laser_data(msg):
+    regions=[
+        min(min(msg.ranges[0:71]),10),
+        min(min(msg.ranges[72:143]),10),
+        min(min(msg.ranges[144:216]),10),
+        min(min(msg.ranges[217:288]),10),
+        min(min(msg.ranges[289:360]),10),
+    ]
+    rospy.loginfo(regions)
 
 def pub():
     global ranges
